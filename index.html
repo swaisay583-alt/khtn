@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề Cương KHTN 7 - Lớp 7A7</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0b131e 0%, #112233 100%);
+    color: #e6f1ff;
+    margin: 0;
+    padding: 25px 15px;
+    line-height: 1.6;
+  }
+  
+  /* Thanh tiến độ làm bài trên cùng */
+  .progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 7px;
+    background: #162436;
+    z-index: 9999;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #06b6d4, #22d3ee);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 12px auto;
+    background: #152232;
+    padding: 32px;
+    border-radius: 16px;
+    border-top: 6px solid #06b6d4;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.75);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #22d3ee;
+    margin-bottom: 5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(34, 211, 238, 0.25);
+  }
+  
+  .header-info {
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .status-badge {
+    display: inline-block;
+    background: #1e3147;
+    color: #22d3ee;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.95em;
+    margin-top: 10px;
+    border: 1px solid #2b4563;
+  }
+
+  select, button.submit-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  
+  select {
+    background-color: #0f1926;
+    color: #fff;
+    border: 2px solid #06b6d4;
+    cursor: pointer;
+    font-weight: bold;
+    outline: none;
+    transition: 0.3s;
+  }
+  select:focus {
+    box-shadow: 0 0 14px rgba(6, 182, 212, 0.45);
+  }
+
+  .question-box {
+    margin-bottom: 22px;
+    padding: 22px;
+    border: 1px solid #233852;
+    border-radius: 12px;
+    background: #1a2a3d;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.25s ease;
+  }
+  .question-box:hover {
+    border-color: #06b6d4;
+  }
+  .question-box.answered {
+    border-left: 5px solid #06b6d4;
+    background: #1d3046;
+  }
+
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #67e8f9;
+    font-size: 1.12em;
+  }
+
+  .options label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: #22364e;
+    border: 1px solid transparent;
+  }
+  .options label:hover {
+    background-color: #2a4361;
+    border-color: #22d3ee;
+    transform: translateX(4px);
+  }
+  
+  input[type="radio"] {
+    margin-right: 12px;
+    transform: scale(1.35);
+    accent-color: #06b6d4;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  button.submit-btn {
+    background: linear-gradient(90deg, #06b6d4, #0891b2);
+    color: #ffffff;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+  }
+  button.submit-btn:hover {
+    background: linear-gradient(90deg, #22d3ee, #06b6d4);
+    box-shadow: 0 6px 22px rgba(6, 182, 212, 0.65);
+    transform: translateY(-2px);
+  }
+  button.submit-btn:active {
+    transform: translateY(1px);
+  }
+
+  #resultBox {
+    display: none;
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    line-height: 1.6;
+    background-color: #1a2a3d;
+    border: 2px solid #06b6d4;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  }
+  
+  .feedback {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.98em;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="container">
+  <h1>ĐỀ CƯƠNG KHOA HỌC TỰ NHIÊN 7</h1>
+  <div class="header-info">
+    Lớp 7A7 - Năm học 2026-2027<br>
+    <span class="status-badge" id="progressText">Đã làm: 0/40 câu</span>
+  </div>
+
+  <div class="question-box">
+    <label style="font-weight: bold; color: #fff; font-size: 1.1em;">👤 Chọn tên của bạn:</label>
+    <select id="studentName" onchange="playClick()">
+      <option value="">-- Bấm vào đây để chọn tên --</option>
+    </select>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <button class="submit-btn" onclick="nopBai()">NỘP BÀI & XEM ĐIỂM</button>
+  <div id="resultBox"></div>
+</div>
+
+<script>
+  // HỆ THỐNG ÂM THANH CLICK TO RÕ, SẮC NÉT
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audioCtx;
+
+  function playClick() {
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(850, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(180, audioCtx.currentTime + 0.06);
+      
+      gain.gain.setValueAtTime(0.75, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.06);
+    } catch (e) {}
+  }
+
+  function playSubmitSound() {
+    try {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const now = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+        gain.gain.setValueAtTime(0.6, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.25);
+      });
+    } catch (e) {}
+  }
+
+  // DANH SÁCH 39 HỌC SINH LỚP 7A7
+  const danhsach7A7 = [
+    "1. Phạm Thị Vân Anh", "2. Phạm Hoài Bảo", "3. Trần Phạm Gia Bảo", "4. Nguyễn Ngọc Diễm",
+    "5. Huỳnh Vũ Duy", "6. Võ Minh Duy", "7. Đỗ Lâm Hạnh Duyên", "8. Nguyễn Phan Khánh Duyên",
+    "9. Nguyễn Minh Đăng", "10. Võ Nguyễn Ngọc Giàu", "11. Võ Thị Nhã Hân", "12. Võ Minh Hiếu",
+    "13. Nguyễn Hoàng Kha", "14. Phan Hoàng Thái Lâm", "15. Nguyễn Hữu Bảo Long", "16. Huỳnh Duy Mạnh",
+    "17. Lê Thị Cẩm Mi", "18. Nguyễn Lâm Hải Nam", "19. Phạm Hoàng Phương Nghi", "20. Nguyễn Phương Khánh Ngọc",
+    "21. Nguyễn Trần Bảo Ngọc", "22. Trần Nguyễn Như Ngọc", "23. Lê Nhi", "24. Phạm Đỗ Huỳnh Như",
+    "25. Võ Minh Nhựt", "26. Lê Văn Hoàng Phi", "27. Ngô Văn Tài", "28. Lê Thanh Tân",
+    "29. Đỗ Huệ Thanh", "30. Phạm Huỳnh Thanh Thảo", "31. Nguyễn Trúc Thi", "32. Trần Hoàng Thiện",
+    "33. Huỳnh Anh Thư", "34. Trần Trung Tín", "35. Nguyễn Thị Ngọc Trân", "36. Nguyễn Minh Triệu",
+    "37. Phạm Thanh Vũ", "38. Lê Trần Hoàng Vy", "39. Đặng Ngọc Như Ý"
+  ];
+
+  const select = document.getElementById('studentName');
+  danhsach7A7.forEach(ten => {
+    let opt = document.createElement('option');
+    opt.value = ten;
+    opt.innerHTML = ten;
+    select.appendChild(opt);
+  });
+
+  // DANH SÁCH 40 CÂU HỎI TRẮC NGHIỆM KHTN 7 (ĐÃ ĐỐI CHIẾU CHUẨN BẢNG ĐÁP ÁN)
+  const tracnghiem = [
+    { q: "Câu 1. Sinh vật lấy các chất từ môi trường, biến đổi thành những chất cần thiết cho cơ thể và tạo năng lượng cung cấp cho các hoạt động sống đồng thời thải ra môi trường các chất thải. Quá trình đó gọi là:", o: ["A. trao đổi chất", "B. quang hợp", "C. hô hấp", "D. chuyển hóa năng lượng"], a: 0 },
+    { q: "Câu 2. Trao đổi chất và chuyển hóa năng lượng có vai trò đảm bảo cho sinh vật:", o: ["A. chết", "B. tồn tại", "C. không tồn tại", "D. chuyển hóa"], a: 1 },
+    { q: "Câu 3. Giải thích vì sao khi làm việc nặng hay vận động mạnh trong thời gian dài nhịp thở tăng?", o: ["A. Vì để đảm bảo khí oxygen và đào thải khí carbon dioxide", "B. Vì để đảm bảo khí carbon dioxide và đào thải khí carbon dioxide", "C. Vì để đảm bảo khí oxygen và đào thải khí oxygen", "D. Vì để đảm bảo khí carbon dioxide và đào thải khí oxygen"], a: 0 },
+    { q: "Câu 4. Vì sao khi làm việc nặng hay vận động mạnh trong thời gian dài mồ hôi toát ra nhiều?", o: ["A. Vì để giảm carbon dioxide", "B. Vì để giảm oxygen", "C. Vì để giảm năng lượng", "D. Vì để giảm nhiệt"], a: 3 },
+    { q: "Câu 5. Sản phẩm của quang hợp là:", o: ["A. carbon dioxide, diệp lục", "B. oxygen, carbon dioxide", "C. glucose, oxygen", "D. ánh sáng, oxygen"], a: 2 },
+    { q: "Câu 6. Nguyên liệu của quang hợp là:", o: ["A. nước, carbon dioxide", "B. oxygen, carbon dioxide", "C. glucose, oxygen", "D. nước, oxygen"], a: 0 },
+    { q: "Câu 7. Lá cây sử dụng nước và khí carbon dioxide nhờ năng lượng ánh sáng đã được diệp lục hấp thụ để tổng hợp chất hữu cơ và giải phóng oxygen là quá trình:", o: ["A. hô hấp", "B. quang hợp", "C. cảm ứng", "D. thoát hơi nước"], a: 1 },
+    { q: "Câu 8. Vì sao nhiều loại cây trồng được trong nhà vẫn có thể sống được bình thường?", o: ["A. Vì cây ưa bóng", "B. Vì cây ưa sáng", "C. Vì cây ăn quả", "D. Vì ánh sáng mạnh"], a: 0 },
+    { q: "Câu 9. Các yếu tố ảnh hưởng đến quang hợp ở thực vật là:", o: ["A. ánh sáng, oxygen, nước, khí carbon dioxide", "B. ánh sáng, nước, nhiệt độ, khí oxygen", "C. ánh sáng, nhiệt độ, khí carbon dioxide, oxygen", "D. ánh sáng, nhiệt độ, khí carbon dioxide, nước"], a: 3 },
+    { q: "Câu 10. Cây ưa sáng gồm:", o: ["A. lúa, hoa giấy, dừa", "B. lá lốt, trầu không", "C. dừa, lá lốt, lúa", "D. lúa, hoa giấy, trầu không"], a: 0 },
+    { q: "Câu 11. Cây ưa bóng gồm:", o: ["A. lúa, hoa giấy, dừa", "B. lá lốt, trầu không", "C. dừa, lá lốt, lúa", "D. lúa, hoa giấy, trầu không"], a: 1 },
+    { q: "Câu 12. Trồng cây đúng thời vụ để:", o: ["A. có khí hậu, thời tiết không phù hợp", "B. có khí hậu, thời tiết bất lợi cho cây", "C. có carbon dioxide phù hợp nhất", "D. có khí hậu, thời tiết phù hợp nhất đối với cây"], a: 3 },
+    { q: "Câu 13. Để cây sử dụng được các yếu tố ánh sáng, nhiệt độ, độ ẩm,... của môi trường phù hợp nhất và hiệu quả nhất, vì vậy nên trồng cây:", o: ["A. đúng nơi", "B. đúng giai đoạn", "C. đúng nguyên liệu", "D. đúng mật độ"], a: 3 },
+    { q: "Câu 14. Phân giải các chất hữu cơ tạo thành nước, carbon dioxide, đồng thời giải phóng ra năng lượng đó là quá trình:", o: ["A. thoát hơi nước", "B. quang hợp", "C. cảm ứng", "D. hô hấp"], a: 3 },
+    { q: "Câu 15. Glucose + Oxygen → Nước + Carbon dioxide + Năng lượng (ATP) là:", o: ["A. Phương trình quang hợp", "B. Phương trình quang năng", "C. Phương trình hô hấp", "D. Phương trình trao đổi chất"], a: 2 },
+    { q: "Câu 16. Quá trình tổng hợp và phân giải chất hữu cơ có biểu hiện:", o: ["A. trái ngược nhau", "B. giống nhau", "C. phân giải", "D. tổng hợp"], a: 0 },
+    { q: "Câu 17. Là nguyên liệu cần thiết tham gia vào quá trình hô hấp tế bào của hầu hết các sinh vật. Nếu không có, quá trình hô hấp tế bào sẽ không thể diễn ra → Tế bào thiếu hụt năng lượng → Cơ thể sẽ chết dần. Đó là:", o: ["A. Diệp lục", "B. Carbon dioxide", "C. Oxygen", "D. Iodine"], a: 2 },
+    { q: "Câu 18. Một số yếu tố chủ yếu ảnh hưởng đến hô hấp tế bào:", o: ["A. ánh sáng, nhiệt độ, carbon dioxide, oxygen", "B. carbon dioxide, oxygen, iodine, ánh sáng", "C. nước, nhiệt độ, carbon dioxide, ánh sáng", "D. nước, nhiệt độ, carbon dioxide, oxygen"], a: 3 },
+    { q: "Câu 19. Vì sao các loại hạt (lúa, ngô, đậu) cần phải phơi khô trước khi bảo quản?", o: ["A. Vì độ ẩm cao, hô hấp giảm", "B. Vì độ ẩm thấp, hô hấp tăng", "C. Vì độ ẩm cao, nên không nảy mầm", "D. Vì độ ẩm thấp, hô hấp giảm"], a: 3 },
+    { q: "Câu 20. Cho một số nông sản sau: cà, dưa chuột, rau muống. Hãy lựa chọn phương pháp bảo quản phù hợp?", o: ["A. Bảo quản khô", "B. Bảo quản lạnh", "C. Bảo quản nóng", "D. Bảo quản lạnh 0°C"], a: 1 },
+    { q: "Câu 21. Thực vật thực hiện trao đổi khí với môi trường chủ yếu thông qua:", o: ["A. khí khổng", "B. ty thể", "C. lục lạp", "D. riboxom"], a: 0 },
+    { q: "Câu 22. Khí khổng có vai trò:", o: ["A. trao đổi khí, thoát hơi nước", "B. trao đổi nước, thoát nước", "C. quang hợp, cảm ứng", "D. hô hấp, cảm ứng"], a: 0 },
+    { q: "Câu 23. Khi hít vào, khí oxygen từ môi trường đi vào khoang mũi → hầu và họng → thanh quản → khí quản → phế quản → phế nang → máu → đi đến từng tế bào thông qua hoạt động của:", o: ["A. hệ tuần hoàn", "B. hệ bài tiết", "C. hệ vận động", "D. hệ tiêu hóa"], a: 0 },
+    { q: "Câu 24. Việc làm có lợi cho trao đổi khí ở người:", o: ["A. Hút thuốc lá", "B. Uống rượu bia", "C. Tập luyện và lao động vừa sức", "D. Không giữ vệ sinh"], a: 2 },
+    { q: "Câu 25. Tưới nước, chiếu sáng, lau bụi cho lá nhằm mục đích:", o: ["A. để trao đổi khí thuận lợi", "B. để trao đổi chất khó khăn", "C. để trao đổi khí không thuận lợi", "D. để thực vật thêm đẹp"], a: 0 },
+    { q: "Câu 26. Vì sao khi di chuyển cây đi trồng ở nơi khác, người ta thường cắt bớt một phần cành lá?", o: ["A. Vì giảm bớt sự thoát hơi nước ở lá", "B. Vì giảm bớt năng lượng ở cây", "C. Vì giảm quá trình quang hợp ở cây", "D. Vì giảm quá trình hô hấp ở cây"], a: 0 },
+    { q: "Câu 27. Sự hấp thụ nước và chất khoáng của cây diễn ra ở các tế bào:", o: ["A. khí khổng", "B. thịt lá", "C. biểu bì", "D. lông hút"], a: 3 },
+    { q: "Câu 28. Chất hữu cơ do lá tổng hợp được vận chuyển đến nơi cần dùng hoặc nơi dự trữ nhờ:", o: ["A. mạch gỗ", "B. mạch rây", "C. mạch nước", "D. mạch dẫn"], a: 1 },
+    { q: "Câu 29. Nước và chất khoáng hòa tan trong đất được các tế bào lông hút hấp thụ vào rễ rồi vận chuyển từ rễ lên thân cây và lá nhờ:", o: ["A. mạch gỗ", "B. mạch rây", "C. mạch nước", "D. mạch dẫn"], a: 0 },
+    { q: "Câu 30. Vì sao vào những ngày khô hanh, độ ẩm không khí thấp hoặc những ngày nắng nóng cần phải tưới nước nhiều cho cây?", o: ["A. Vì cây mất diệp lục", "B. Vì cây mất oxygen", "C. Vì cây mất nước", "D. Vì cây mất tế bào"], a: 2 },
+    { q: "Câu 31. Động vật lấy nước vào cơ thể chủ yếu qua:", o: ["A. thức ăn, nước uống", "B. sinh trưởng, phát triển", "C. thức ăn, không khí", "D. nước, mồ hôi"], a: 0 },
+    { q: "Câu 32. Nước, chất dinh dưỡng, chất thải,... được vận chuyển trong cơ thể nhờ hoạt động của:", o: ["A. hệ bài tiết", "B. hệ hô hấp", "C. hệ tuần hoàn", "D. hệ vận động"], a: 2 },
+    { q: "Câu 33. Phản ứng của sinh vật đối với kích thích từ môi trường gọi là:", o: ["A. tập tính", "B. phương trình", "C. cảm tình", "D. cảm ứng"], a: 3 },
+    { q: "Câu 34. Một chuỗi những phản ứng của động vật trả lời kích thích từ môi trường, đảm bảo cho động vật tồn tại và phát triển gọi là:", o: ["A. tập nhiễm", "B. tập hợp", "C. tập kết", "D. tập tính"], a: 3 },
+    { q: "Câu 35. Mèo bắt chuột thường rình mồi, vồ mồi, vờn mồi nhằm:", o: ["A. nâng cao hiệu suất săn mồi của mèo", "B. thu hút bạn tình giữa mèo và chuột", "C. tránh rét vào mùa đông", "D. Bảo vệ được nguồn thức ăn"], a: 0 },
+    { q: "Câu 36. Trâu rừng thường sống theo đàn nhằm:", o: ["A. hỗ trợ nhau", "B. tranh giành thức ăn", "C. cạnh tranh nhau", "D. tiêu diệt nhau"], a: 0 },
+    { q: "Câu 37. Tập thể dục buổi sáng ở người để:", o: ["A. nâng cao nhiệt độ", "B. nâng cao sức khỏe", "C. nâng tầm hiểu biết", "D. nâng cao kích thích"], a: 1 },
+    { q: "Câu 38. Việc em sẽ làm để bỏ được thói quen ngủ dậy muộn là:", o: ["A. Đặt lịch học", "B. Đặt báo cáo", "C. Đặt báo thức", "D. Đặt thời khóa biểu"], a: 2 },
+    { q: "Câu 39. Khi trồng cây thân leo như bầu, bí, mướp,... người trồng thường phải:", o: ["A. làm bù nhìn", "B. làm giàn", "C. phơi khô", "D. làm lạnh"], a: 1 },
+    { q: "Câu 40. Muốn tạo được thói quen tập thể dục buổi sáng em cần thực hiện:", o: ["A. luyện tập đều đặn", "B. luyện tập có lệ", "C. luyện tập quá sức", "D. luyện tập hít thở"], a: 0 }
+  ];
+
+  const container = document.getElementById('quizContainer');
+  let html = '';
+
+  tracnghiem.forEach((item, index) => {
+    html += `<div class="question-box" id="tn_box_${index}">
+               <div class="question-title">${item.q}</div>
+               <div class="options">`;
+    item.o.forEach((opt, optIndex) => {
+      html += `<label><input type="radio" name="tn_${index}" value="${optIndex}" onclick="chonDapAn(${index})"> <span>${opt}</span></label>`;
+    });
+    html += `</div><div id="tn_fb_${index}" class="feedback"></div></div>`;
+  });
+
+  container.innerHTML = html;
+
+  function chonDapAn(index) {
+    playClick();
+    document.getElementById(`tn_box_${index}`).classList.add('answered');
+    
+    let daLam = 0;
+    for (let i = 0; i < tracnghiem.length; i++) {
+      if (document.querySelector(`input[name="tn_${i}"]:checked`)) {
+        daLam++;
+      }
+    }
+    const percent = (daLam / tracnghiem.length) * 100;
+    document.getElementById('progressBar').style.width = percent + '%';
+    document.getElementById('progressText').innerText = `Đã làm: ${daLam}/${tracnghiem.length} câu`;
+  }
+
+  function nopBai() {
+    const ten = document.getElementById('studentName').value;
+    if (!ten) {
+      playClick();
+      alert("⚠️ Vui lòng chọn tên của bạn ở đầu trang trước khi nộp bài!");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    playSubmitSound();
+    let diemTN = 0;
+    let soCauDung = 0;
+    let chualam = 0;
+
+    tracnghiem.forEach((item, index) => {
+      const selected = document.querySelector(`input[name="tn_${index}"]:checked`);
+      const fb = document.getElementById(`tn_fb_${index}`);
+      fb.style.display = 'block';
+
+      if (!selected) {
+        chualam++;
+        fb.innerHTML = `⚠️ Bạn chưa làm câu này! Đáp án đúng là: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#4a3b10';
+        fb.style.color = '#ffd54f';
+      } else if (parseInt(selected.value) === item.a) {
+        diemTN += 0.25; // 40 câu x 0.25 điểm = 10 điểm
+        soCauDung++;
+        fb.innerHTML = `✔️ Chính xác! Đáp án đúng: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#143628';
+        fb.style.color = '#6ee7b7';
+      } else {
+        fb.innerHTML = `❌ Sai rồi! Đáp án đúng là: <b>${item.o[item.a]}</b>`;
+        fb.style.backgroundColor = '#451a1a';
+        fb.style.color = '#fca5a5';
+      }
+    });
+
+    let tongDiem = diemTN.toFixed(2).replace(/\.00$/, '');
+    let rank = diemTN >= 8 ? "🎉 Xuất sắc! Bạn nắm bài KHTN rất chắc!" : (diemTN >= 5 ? "👍 Khá tốt, xem lại các câu sai để đạt điểm tuyệt đối nhé!" : "📚 Cần ôn kĩ lại đề cương nha!");
+
+    const res = document.getElementById('resultBox');
+    res.style.display = 'block';
+    res.style.borderColor = diemTN >= 5 ? '#06b6d4' : '#f87171';
+
+    let msg = `<h2 style="color: #fff; margin-top: 0;">KẾT QUẢ BÀI LÀM KHTN 7</h2>
+               <b style="font-size: 1.2em;">👤 Học sinh: <span style="color:#22d3ee">${ten}</span></b><br>
+               <p style="color:#94a3b8; margin: 5px 0 0 0;">Đúng: <b>${soCauDung}/40</b> câu</p>
+               <h1 style="margin: 10px 0 15px 0; color: #22d3ee; font-size: 3.2em;">${tongDiem}<span style="font-size: 0.45em; color: #aaa;">/10 điểm</span></h1>
+               <p style="font-size: 1.1em; font-weight: bold;">${rank}</p>`;
+               
+    if (chualam > 0) {
+      msg += `<p style="color:#ffd54f"><i>Lưu ý: Bạn đã bỏ trống ${chualam} câu chưa chọn đáp án.</i></p>`;
+    }
+    
+    msg += `<button onclick="location.reload()" style="background:#22364e; color:#fff; border:1px solid #06b6d4; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px;">🔄 Làm lại đề</button>`;
+
+    res.innerHTML = msg;
+    res.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+</body>
+</html>
